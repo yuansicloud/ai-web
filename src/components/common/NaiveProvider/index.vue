@@ -31,13 +31,15 @@ const NaiveProviderContent = defineComponent({
 
 <template>
   <NLoadingBarProvider>
-    <NDialogProvider>
-      <NNotificationProvider>
-        <NMessageProvider>
-          <slot />
-          <NaiveProviderContent />
-        </NMessageProvider>
-      </NNotificationProvider>
-    </NDialogProvider>
+    <div class="flex h-full flex-col overflow-hidden">
+      <NDialogProvider has-sider class="h-full flex-1">
+        <NNotificationProvider>
+          <NMessageProvider>
+            <slot />
+            <NaiveProviderContent />
+          </NMessageProvider>
+        </NNotificationProvider>
+      </NDialogProvider>
+    </div>
   </NLoadingBarProvider>
 </template>

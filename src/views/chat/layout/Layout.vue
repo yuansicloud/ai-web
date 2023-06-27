@@ -18,7 +18,9 @@ const { isMobile } = useBasicLayout()
 
 const collapsed = computed(() => appStore.siderCollapsed)
 
-const needPermission = computed(() => !!authStore.session?.auth && !authStore.token)
+const needPermission = computed(
+  () => !!authStore.session?.auth && !authStore.token,
+)
 
 const getMobileClass = computed(() => {
   if (isMobile.value)
@@ -27,25 +29,32 @@ const getMobileClass = computed(() => {
 })
 
 const getContainerClass = computed(() => {
-  return [
-    'h-full',
-    { 'pl-[260px]': !isMobile.value && !collapsed.value },
-  ]
+  return ['h-full', { 'pl-[260px]': !isMobile.value && !collapsed.value }]
 })
 </script>
 
 <template>
-  <div class="h-full dark:bg-[#24272e] transition-all" :class="[isMobile ? 'p-0' : 'p-4']">
-    <div class="h-full overflow-hidden" :class="getMobileClass">
-      <NLayout class="z-40 transition" :class="getContainerClass" has-sider>
-        <Sider />
-        <NLayoutContent class="h-full">
-          <RouterView v-slot="{ Component, route }">
-            <component :is="Component" :key="route.fullPath" />
-          </RouterView>
-        </NLayoutContent>
-      </NLayout>
+  <div class="flex h-full dark:bg-[#24272e] transition-all">
+    <div
+      class="h-full dark:bg-[#24272e] transition-all"
+      style="width: 100%"
+      :class="[isMobile ? 'p-0' : 'p-4']"
+    >
+      <div class="h-full overflow-hidden" :class="getMobileClass">
+        <NLayout
+          class="flex z-40 transition"
+          :class="getContainerClass"
+          has-sider
+        >
+          <Sider />
+          <NLayoutContent class="h-full">
+            <RouterView v-slot="{ Component, route }">
+              <component :is="Component" :key="route.fullPath" />
+            </RouterView>
+          </NLayoutContent>
+        </NLayout>
+      </div>
+      <Permission :visible="needPermission" />
     </div>
-    <Permission :visible="needPermission" />
   </div>
 </template>

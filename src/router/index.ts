@@ -1,13 +1,28 @@
 import type { App } from 'vue'
-import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { setupPageGuard } from './permission'
 import { ChatLayout } from '@/views/chat/layout'
+import { PagesLogin } from '@/views/pages/index'
 
-const routes: RouteRecordRaw[] = [
+const routes = [
   {
     path: '/',
     name: 'Root',
+    component: PagesLogin,
+    meta: {
+      hideSidebar: true,
+    },
+    redirect: '/pages',
+    children: [
+      {
+        path: '/pages',
+        name: 'Pages',
+        component: () => import('@/views/pages/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/',
     component: ChatLayout,
     redirect: '/chat',
     children: [
@@ -18,7 +33,32 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
+  {
+    path: '/user',
+    name: 'User',
+    component: () => import('@/views/user/index.vue'),
+  },
+  {
+    path: '/message',
+    name: 'Message',
+    component: () => import('@/views/message/index.vue'),
+  },
+  {
+    path: '/registerPage',
+    name: 'RegisterPage',
+    meta: {
+      hideSidebar: true,
+    },
+    component: () => import('@/views/registerPage/index.vue'),
+  },
+  {
+    path: '/forgotPage',
+    name: 'ForgotPage',
+    meta: {
+      hideSidebar: true,
+    },
+    component: () => import('@/views/forgotPage/index.vue'),
+  },
   {
     path: '/404',
     name: '404',
