@@ -11,6 +11,7 @@ import {
 } from 'naive-ui'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useBasicLayout } from '@/hooks/useBasicLayout'
 const router = useRouter()
 
 const value = ref(null)
@@ -33,6 +34,7 @@ const goforgotPage = () => {
 const goRegisterPage = () => {
   router.push('/registerPage')
 }
+const { isMobile } = useBasicLayout()
 </script>
 
 <template>
@@ -41,7 +43,7 @@ const goRegisterPage = () => {
       <div
         class="m-auto flex items-stretch overflow-hidden rounded-md bg-white dark:bg-[#18181c] max-w-[840px]"
       >
-        <div class="w-[420px] bg-[#f8f9fa] dark:bg-[#25272c]">
+        <div v-if="!isMobile" class="w-[420px] bg-[#f8f9fa] dark:bg-[#25272c]">
           <NCarousel :space-between="20" draggable>
             <img
               class="carousel-img"

@@ -11,26 +11,28 @@ const routes: RouteRecordRaw[] = [
     name: 'root',
     component: LogonPage,
     redirect: '/logon',
+    meta: { showInSidebar: false },
     children: [
       {
         path: '/logon',
         name: 'Logon',
         component: () => import('@/views/logon/index.vue'),
       },
-      {
-        path: '/404',
-        name: '404',
-        component: () => import('@/views/exception/404/index.vue'),
-      },
 
-      {
-        path: '/500',
-        name: '500',
-        component: () => import('@/views/exception/500/index.vue'),
-      },
     ],
-
   },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('@/views/exception/404/index.vue'),
+  },
+
+  {
+    path: '/500',
+    name: '500',
+    component: () => import('@/views/exception/500/index.vue'),
+  },
+
   {
     path: '/',
     component: ChatLayout,
@@ -40,6 +42,11 @@ const routes: RouteRecordRaw[] = [
         path: '/chat/:uuid?',
         name: 'Chat',
         component: () => import('@/views/chat/index.vue'),
+      },
+      {
+        path: '/setting',
+        name: 'Setting',
+        component: () => import('@/views/setting/index.vue'),
       },
     ],
   },

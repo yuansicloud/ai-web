@@ -67,6 +67,7 @@ watch(
     position="absolute"
     bordered
     :style="getMobileClass"
+    :hide-trigger="false"
     @update-collapsed="handleUpdateCollapsed"
   >
     <div class="flex flex-col h-full" :style="mobileSafeArea">
