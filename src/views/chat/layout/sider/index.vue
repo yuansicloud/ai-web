@@ -1,9 +1,9 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
-import { NButton, NLayoutSider } from 'naive-ui'
+import { NButton, NLayoutSider, NProgress } from 'naive-ui'
 import List from './List.vue'
-import Footer from './Footer.vue'
+import { Search, Toolbar } from '@/views/chat/components'
 import { useAppStore, useChatStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { PromptStore } from '@/components/common'
@@ -72,25 +72,47 @@ watch(
   >
     <div class="flex flex-col h-full" :style="mobileSafeArea">
       <main class="flex flex-col flex-1 min-h-0">
-        <div class="p-4">
-          <NButton dashed block @click="handleAdd">
-            {{ $t('chat.newChatButton') }}
-          </NButton>
-        </div>
+        <Search />
         <div class="flex-1 min-h-0 pb-4 overflow-hidden">
           <List />
         </div>
+        <Toolbar />
         <div class="p-4">
           <NButton block @click="show = true">
-            {{ $t('store.siderButton') }}
+            {{ $t("store.siderButton") }}
           </NButton>
         </div>
+        <div class="border-t p-4 dark:border-t-neutral-800">
+          <div class="flex h-8 items-center justify-between space-x-2">
+            <span>余额 4,880 (98%)</span>
+            <div class="mr-2 flex items-center space-x-2">
+              <NButton size="tiny" type="success">
+                刷新
+              </NButton>
+              <NButton size="tiny" type="success">
+                充值
+              </NButton>
+            </div>
+          </div>
+          <div class="mt-2">
+            <NProgress
+              type="line"
+              :show-indicator="false"
+              status="success"
+              :percentage="98"
+            />
+          </div>
+        </div>
       </main>
-      <Footer />
+      <!-- <Footer /> -->
     </div>
   </NLayoutSider>
   <template v-if="isMobile">
-    <div v-show="!collapsed" class="fixed inset-0 z-40 w-full h-full bg-black/40" @click="handleUpdateCollapsed" />
+    <div
+      v-show="!collapsed"
+      class="fixed inset-0 z-40 w-full h-full bg-black/40"
+      @click="handleUpdateCollapsed"
+    />
   </template>
   <PromptStore v-model:visible="show" />
 </template>

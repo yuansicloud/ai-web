@@ -49,8 +49,8 @@ onMounted(() => {
           </a>
           <a
             class="menu h-12 w-12 cursor-pointer rounded-xl bg-white duration-300 dark:bg-[#34373c]"
-            :class="{ 'is-active': activePage === 'logon' }"
-            @click="goToPage('logon')"
+            :class="{ 'is-active': activePage === 'setting' }"
+            @click="goToPage('setting')"
           >
             <div class="flex h-full">
               <div class="m-auto text-center">
