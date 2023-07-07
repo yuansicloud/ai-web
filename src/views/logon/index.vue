@@ -46,30 +46,47 @@ const { isMobile } = useBasicLayout()
         <div v-if="!isMobile" class="w-[420px] bg-[#f8f9fa] dark:bg-[#25272c]">
           <NCarousel :space-between="20" draggable>
             <div class="flex h-full">
-              <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-              >
+              <div class="m-auto text-center dark:text-white">
+                <img
+                  class="carousel-img"
+                  src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
+                >
+                <h1 class="mb-2 mt-2 text-xl font-bold">
+                  工作助手
+                </h1>
+                <p class="text-slate-500">
+                  工作遇到麻烦？来问一问吧
+                </p>
+              </div>
             </div>
             <div class="flex h-full">
-              <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-              >
+              <div class="m-auto text-center dark:text-white">
+                <img
+                  class="carousel-img"
+                  src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
+                >
+                <h1 class="mb-2 mt-2 text-xl font-bold">
+                  工作助手
+                </h1>
+                <p class="text-slate-500">
+                  工作遇到麻烦？来问一问吧
+                </p>
+              </div>
             </div>
 
             <div class="flex h-full">
-              <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-              >
-            </div>
-
-            <div class="flex h-full">
-              <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-              >
+              <div class="m-auto text-center dark:text-white">
+                <img
+                  class="carousel-img"
+                  src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
+                >
+                <h1 class="mb-2 mt-2 text-xl font-bold">
+                  工作助手
+                </h1>
+                <p class="text-slate-500">
+                  工作遇到麻烦？来问一问吧
+                </p>
+              </div>
             </div>
           </NCarousel>
         </div>
@@ -88,7 +105,10 @@ const { isMobile } = useBasicLayout()
             <main>
               <p class="mt-2 mb-3">
                 <span class="text-black dark:text-white">新用户？</span>
-                <a class="text-green-500 dark:text-[#86dfba]" @click="goRegisterPage">
+                <a
+                  class="text-green-500 dark:text-[#86dfba]"
+                  @click="goRegisterPage"
+                >
                   注册帐号</a>
               </p>
               <NTabs type="segment">
