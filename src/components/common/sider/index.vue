@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { NAvatar } from 'naive-ui'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
+import { useUserStore } from '@/store'
+import defaultAvatar from '@/assets/avatar.jpg'
+
+const userStore = useUserStore()
+
+const userInfo = computed(() => userStore.userInfo)
 const router = useRouter()
 const { isMobile } = useBasicLayout()
 
@@ -73,8 +80,8 @@ onMounted(() => {
         </div>
         <div class="flex select-none flex-col items-center space-y-2">
           <a
-            href=""
             class="!hover:text-green-500 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-black dark:text-white"
+            @click="goToPage('logon')"
           >
             <div class="flex h-full">
               <div class="m-auto text-center">
@@ -91,6 +98,19 @@ onMounted(() => {
                   />
                 </svg>
               </div>
+            </div>
+          </a>
+          <a
+            class="!hover:text-green-500 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-black dark:text-white"
+          >
+            <div class="h-full w-full cursor-pointer overflow-hidden rounded-full">
+              <NAvatar
+                size="large"
+                round
+                :src="userInfo.avatar"
+                :fallback-src="defaultAvatar"
+                @click="goToPage('setting')"
+              />
             </div>
           </a>
         </div>

@@ -45,22 +45,32 @@ const { isMobile } = useBasicLayout()
       >
         <div v-if="!isMobile" class="w-[420px] bg-[#f8f9fa] dark:bg-[#25272c]">
           <NCarousel :space-between="20" draggable>
-            <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-            >
-            <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-            >
-            <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-            >
-            <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-            >
+            <div class="flex h-full">
+              <img
+                class="carousel-img"
+                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
+              >
+            </div>
+            <div class="flex h-full">
+              <img
+                class="carousel-img"
+                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
+              >
+            </div>
+
+            <div class="flex h-full">
+              <img
+                class="carousel-img"
+                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
+              >
+            </div>
+
+            <div class="flex h-full">
+              <img
+                class="carousel-img"
+                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
+              >
+            </div>
           </NCarousel>
         </div>
         <div class="relative pb-0 w-[420px] p-6">
@@ -127,11 +137,11 @@ const { isMobile } = useBasicLayout()
               <div class="flex items-center">
                 <NSelect
                   v-model:value="value"
-                  style="width: 72px"
+                  style="width: 82px"
                   :options="options"
                 />
               </div>
-              <a class="text-neutral-600 underline hover:text-[#4b9e5f] dark:text-neutral-500 dark:hover:text-[#86dfba]" @click="goforgotPage"> 找回密码? </a>
+              <!-- <a class="text-neutral-600 underline hover:text-[#4b9e5f] dark:text-neutral-500 dark:hover:text-[#86dfba]" @click="goforgotPage"> 找回密码? </a> -->
             </footer>
           </div>
         </div>
