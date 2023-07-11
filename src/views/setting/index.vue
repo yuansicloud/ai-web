@@ -121,8 +121,8 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
   { label: 'Русский язык', key: 'ru-RU', value: 'ru-RU' },
 ]
 
-function updateUserInfo(options: Partial<UserInfo>) {
-  userStore.updateUserInfo(options)
+function getUserInfo(options: Partial<UserInfo>) {
+  userStore.getUserInfo(options)
   ms.success(t('common.success'))
 }
 
@@ -209,7 +209,7 @@ function handleImportButtonClick(): void {
                     size="tiny"
                     text
                     type="primary"
-                    @click="updateUserInfo({ avatar })"
+                    @click="getUserInfo({ avatar })"
                   >
                     {{ $t("common.save") }}
                   </NButton>
@@ -225,7 +225,7 @@ function handleImportButtonClick(): void {
                     size="tiny"
                     text
                     type="primary"
-                    @click="updateUserInfo({ name })"
+                    @click="getUserInfo({ name })"
                   >
                     {{ $t("common.save") }}
                   </NButton>
@@ -241,7 +241,7 @@ function handleImportButtonClick(): void {
                     size="tiny"
                     text
                     type="primary"
-                    @click="updateUserInfo({ description })"
+                    @click="getUserInfo({ description })"
                   >
                     {{ $t("common.save") }}
                   </NButton>

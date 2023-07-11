@@ -12,9 +12,36 @@ import {
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-const router = useRouter()
+import { sendVerificationCode } from '@/api/user'
+import { useAuthStore } from '@/store/modules/auth'
 
+const router = useRouter()
 const value = ref(null)
+// 手机验证登录
+const phoneNumber = ref('')
+const verificationCodeType = ref(1)
+const verificationCode = ref('')
+const authStore = useAuthStore()
+
+const sendCode = async () => {
+  await sendVerificationCode(phoneNumber.value, verificationCodeType.value)
+  // if (response.data.success) {
+  //   // 提示用户验证码发送成功
+  // } else {
+  //   // 提示用户验证码发送失败
+  // }
+}
+const goChat = async () => {
+  await authStore.loginUser(phoneNumber.value, verificationCode.value)
+
+  const token = authStore.token // 直接通过 authStore.token 访问 token
+
+  if (token)
+    return router.push('/chat') // 如果成功获取到token，跳转到聊天页面
+
+  else
+    console.error('登录失败，没有获取到token')
+}
 const options = [
   {
     label: '暗色',
@@ -25,12 +52,10 @@ const options = [
     value: 'song2',
   },
 ]
-const goChat = () => {
-  router.push('/chat')
-}
-const goforgotPage = () => {
-  router.push('/forgotPage')
-}
+
+// const goforgotPage = () => {
+//   router.push('/forgotPage')
+// }
 const goRegisterPage = () => {
   router.push('/registerPage')
 }
@@ -124,17 +149,24 @@ const { isMobile } = useBasicLayout()
               <NForm style="align-items: center; justify-content: center">
                 <div style="margin-bottom: 10px">
                   <NTabItem path="phoneNumber">
-                    <NInput placeholder="手机" @keydown.enter.prevent />
+                    <NInput
+                      v-model:value="phoneNumber"
+                      placeholder="手机"
+                      @keydown.enter.prevent
+                    />
                   </NTabItem>
                 </div>
 
                 <div style="margin-bottom: 10px">
                   <div class="flex justify-between">
                     <div style="width: 70%">
-                      <NInput placeholder="验证码" />
+                      <NInput
+                        v-model:value="verificationCode"
+                        placeholder="验证码"
+                      />
                     </div>
                     <div>
-                      <NButton type="primary">
+                      <NButton type="primary" @click="sendCode">
                         获取验证码
                       </NButton>
                     </div>

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { getToken, removeToken, setToken } from './helper'
 import { store } from '@/store'
 import { fetchSession } from '@/api'
+import { phoneNumberLogin } from '@/api/user'
 
 interface SessionResponse {
   auth: boolean
@@ -23,9 +24,29 @@ export const useAuthStore = defineStore('auth-store', {
     isChatGPTAPI(state): boolean {
       return state.session?.model === 'ChatGPTAPI'
     },
+    isToken(state): string | undefined {
+      return state.token
+    },
   },
 
   actions: {
+    async loginUser(phoneNumber: string, verificationCode: string) {
+      try {
+        const response = await phoneNumberLogin(phoneNumber, verificationCode)
+        const { access_token } = response
+
+        if (response.access_token)
+          this.setToken(access_token) // 假设API返回的数据结构中包含token
+        else
+          throw console.error('登录失败：', response)
+
+        // console.error('登录失败：', response)
+      }
+      catch (error) {
+        console.error('登录请求错误：', error)
+      }
+    },
+
     async getSession() {
       try {
         const { data } = await fetchSession<SessionResponse>()
@@ -41,7 +62,6 @@ export const useAuthStore = defineStore('auth-store', {
       this.token = token
       setToken(token)
     },
-
     removeToken() {
       this.token = undefined
       removeToken()
