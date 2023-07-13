@@ -56,7 +56,10 @@ export const useAuthStore = defineStore('auth-store', {
         return Promise.reject(error)
       }
     },
-
+    logout() {
+      this.removeToken() // 删除token
+      this.session = null // 清除session
+    },
     setToken(token: string) {
       this.token = token
       setToken(token)

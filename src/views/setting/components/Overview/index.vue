@@ -8,16 +8,19 @@ import {
 } from 'naive-ui'
 
 import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import type { Language, Theme } from '@/store/modules/app/helper'
 import { SvgIcon } from '@/components/common'
-import { useAppStore, useUserStore } from '@/store'
+import { useAppStore, useAuthStore, useUserStore } from '@/store'
 import type { UserInfo } from '@/store/modules/user/helper'
 import { getCurrentDate } from '@/utils/functions'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { t } from '@/locales'
+const router = useRouter()
 
 const appStore = useAppStore()
 const userStore = useUserStore()
+const authStore = useAuthStore()
 onMounted(() => {
   userStore.getUserInfo()
 })
@@ -78,6 +81,11 @@ function handleReset() {
   userStore.resetUserInfo()
   ms.success(t('common.success'))
   window.location.reload()
+}
+function logOut() {
+  authStore.logout()
+  ms.success(t('common.success'))
+  router.push('/logon') // 跳转到登录页面
 }
 
 function exportData(): void {
@@ -254,6 +262,14 @@ function handleImportButtonClick(): void {
         }}</span>
         <NButton size="small" @click="handleReset">
           {{ $t("common.reset") }}
+        </NButton>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="flex-shrink-0 w-[100px]">{{
+          $t("setting.logOut")
+        }}</span>
+        <NButton size="small" @click="logOut">
+          {{ $t("common.secede") }}
         </NButton>
       </div>
     </div>

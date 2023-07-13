@@ -22,14 +22,24 @@ const phoneNumber = ref('')
 const verificationCodeType = ref(1)
 const verificationCode = ref('')
 const authStore = useAuthStore()
-
+const countdownSeconds = ref(60) // 初始倒计时60秒
+const isCountingDown = ref(false) // 初始值为false，表示没有在倒计时
 const sendCode = async () => {
+  // 开始倒计时
+  isCountingDown.value = true
+
+  const countdownInterval = setInterval(() => {
+    if (countdownSeconds.value > 0) {
+      countdownSeconds.value--
+    }
+    else {
+      // 倒计时结束，清除定时器，重新启用按钮
+      clearInterval(countdownInterval)
+      isCountingDown.value = false
+      countdownSeconds.value = 60 // 重置倒计时
+    }
+  }, 1000)
   await sendVerificationCode(phoneNumber.value, verificationCodeType.value)
-  // if (response.data.success) {
-  //   // 提示用户验证码发送成功
-  // } else {
-  //   // 提示用户验证码发送失败
-  // }
 }
 const goChat = async () => {
   await authStore.loginUser(phoneNumber.value, verificationCode.value)
@@ -166,8 +176,12 @@ const { isMobile } = useBasicLayout()
                       />
                     </div>
                     <div>
-                      <NButton type="primary" @click="sendCode">
-                        获取验证码
+                      <NButton
+                        type="primary"
+                        :disabled="isCountingDown"
+                        @click="sendCode"
+                      >
+                        {{ isCountingDown ? `${countdownSeconds}秒后重新获取` : '获取验证码' }}
                       </NButton>
                     </div>
                   </div>
