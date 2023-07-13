@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import Permission from './Permission.vue'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useAppStore, useAuthStore, useChatStore } from '@/store'
-import { SiderMenu } from '@/components/common'
+import { SiderMenu, TabMenu } from '@/components/common'
 
 const router = useRouter()
 const appStore = useAppStore()
@@ -24,7 +24,7 @@ const needPermission = computed(
 
 const getMobileClass = computed(() => {
   if (isMobile.value)
-    return ['rounded-none', 'shadow-none']
+    return ['flex', 'flex-col']
   return ['border', 'rounded-md', 'shadow-md', 'dark:border-neutral-800']
 })
 
@@ -52,6 +52,7 @@ const getContainerClass = computed(() => {
           </NLayout>
         </NLayoutContent>
       </NLayout>
+      <TabMenu />
     </div>
     <Permission :visible="needPermission" />
   </div>

@@ -1,5 +1,5 @@
 import type { GenericAbortSignal } from 'axios'
-import { get, post } from '@/utils/request'
+import { get, post, put } from '@/utils/request'
 
 // 手机登录API接口
 export const phoneNumberLogin = (phoneNumber: string, verificationCode: string, signal?: GenericAbortSignal) => {
@@ -25,6 +25,23 @@ export const sendVerificationCode = (phoneNumber: string, verificationCodeType: 
 export const getUserInfo = (signal?: GenericAbortSignal) => {
   return get({
     url: '/api/account/my-profile',
+    signal,
+    baseURL: 'https://api.yuansicloud.com',
+  })
+}
+// 更改用户信息
+export const setUserInfo = (signal?: GenericAbortSignal) => {
+  return put({
+    url: '/api/account/my-profile',
+    signal,
+    baseURL: 'https://api.yuansicloud.com',
+  })
+}
+
+// 获取预付费默认账户详情
+export const getPrepaymentDefaultAccount = (signal?: GenericAbortSignal) => {
+  return get({
+    url: '/api/payment-service/prepayment/account/default',
     signal,
     baseURL: 'https://api.yuansicloud.com',
   })

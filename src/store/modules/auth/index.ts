@@ -7,6 +7,7 @@ import { phoneNumberLogin } from '@/api/user'
 interface SessionResponse {
   auth: boolean
   model: 'ChatGPTAPI' | 'ChatGPTUnofficialProxyAPI'
+  data: any
 }
 
 export interface AuthState {
@@ -24,9 +25,7 @@ export const useAuthStore = defineStore('auth-store', {
     isChatGPTAPI(state): boolean {
       return state.session?.model === 'ChatGPTAPI'
     },
-    isToken(state): string | undefined {
-      return state.token
-    },
+
   },
 
   actions: {

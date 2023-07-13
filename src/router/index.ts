@@ -57,6 +57,11 @@ const routes: RouteRecordRaw[] = [
         name: 'Setting',
         component: () => import('@/views/setting/index.vue'),
       },
+      {
+        path: '/message',
+        name: 'Message',
+        component: () => import('@/views/message/index.vue'),
+      },
     ],
   },
 

@@ -42,8 +42,11 @@ function http<T = any>(
   const params = Object.assign(typeof data === 'function' ? data() : data ?? {}, {})
 
   return method === 'GET'
+    // eslint-disable-next-line no-mixed-operators
     ? request.get(url, { params, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
     : request.post(url, params, { headers, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
+    // eslint-disable-next-line no-mixed-operators
+    || request.put(url, params, { headers, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
 }
 
 export function get<T = any>(
@@ -76,5 +79,19 @@ export function post<T = any>(
     baseURL,
   })
 }
-
+export function put<T = any>(
+  { url, data, method = 'PUT', headers, onDownloadProgress, signal, beforeRequest, afterRequest, baseURL }: HttpOption,
+): Promise<T> {
+  return http<T>({
+    url,
+    method,
+    data,
+    headers,
+    onDownloadProgress,
+    signal,
+    beforeRequest,
+    afterRequest,
+    baseURL,
+  })
+}
 export default post
