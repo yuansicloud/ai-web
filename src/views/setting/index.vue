@@ -9,11 +9,11 @@ import { Account, Overview, Package } from '@/views/setting/components/index'
 
 <template>
   <div class="min-h-full p-8">
-    <Header>
+    <header>
       <h2 class="mb-2 text-2xl font-bold text-black dark:text-white">
         个人中心
       </h2>
-    </Header>
+    </header>
     <main>
       <NAlert type="warning">
         此为预览站，仅技术预览和学习使用，违反国内法律使用会被监管并在不主动通知下清除内容或帐号，请用邮箱注册登录，手机号和微信仅仅演示

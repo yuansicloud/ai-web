@@ -46,3 +46,17 @@ export const getPrepaymentDefaultAccount = (signal?: GenericAbortSignal) => {
     baseURL: 'https://api.yuansicloud.com',
   })
 }
+
+export const getPrepaymentTransactionList = (data: TransactionListParams, signal?: GenericAbortSignal) => {
+  return get({
+    url: '/api/payment-service/prepayment/transaction',
+    signal,
+    data,
+    baseURL: 'https://api.yuansicloud.com',
+  })
+}
+interface TransactionListParams {
+  skipCount: number
+  maxResultCount: number
+  accountId: string
+}

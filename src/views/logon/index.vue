@@ -54,12 +54,16 @@ const goChat = async () => {
 }
 const options = [
   {
+    label: '自动',
+    value: 'auto',
+  },
+  {
     label: '暗色',
-    value: 'song1',
+    value: 'dark',
   },
   {
     label: '亮色',
-    value: 'song2',
+    value: 'light',
   },
 ]
 
@@ -158,13 +162,11 @@ const { isMobile } = useBasicLayout()
               </div>
               <NForm style="align-items: center; justify-content: center">
                 <div style="margin-bottom: 10px">
-                  <NTabItem path="phoneNumber">
-                    <NInput
-                      v-model:value="phoneNumber"
-                      placeholder="手机"
-                      @keydown.enter.prevent
-                    />
-                  </NTabItem>
+                  <NInput
+                    v-model:value="phoneNumber"
+                    placeholder="手机"
+                    @keydown.enter.prevent
+                  />
                 </div>
 
                 <div style="margin-bottom: 10px">

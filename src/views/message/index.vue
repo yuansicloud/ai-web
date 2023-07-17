@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { NBadge, NList, NListItem, NPagination } from 'naive-ui'
+import { NBadge, NList, NListItem, NPagination, NSpace } from 'naive-ui'
 import { ref } from 'vue'
 
 const page = ref(2)

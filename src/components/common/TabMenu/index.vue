@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { NIcon } from 'naive-ui'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 
 const router = useRouter()

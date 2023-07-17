@@ -8,9 +8,7 @@ import { NButton, NIcon } from 'naive-ui'
       <div class="flex-1">
         <NButton>
           <template #icon>
-            <NIcon>
-              <cash-icon />
-            </NIcon>
+            <NIcon />
           </template>
           公告栏
         </NButton>
@@ -18,9 +16,7 @@ import { NButton, NIcon } from 'naive-ui'
       <div class="flex space-x-2">
         <NButton>
           <template #icon>
-            <NIcon>
-              <cash-icon />
-            </NIcon>
+            <NIcon />
           </template>
           角色仓库
         </NButton>

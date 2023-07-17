@@ -13,7 +13,6 @@ import {
       <NNotificationProvider>
         <NMessageProvider>
           <slot />
-          <NaiveProviderContent />
         </NMessageProvider>
       </NNotificationProvider>
     </NDialogProvider>
