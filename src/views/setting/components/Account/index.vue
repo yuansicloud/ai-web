@@ -1,32 +1,63 @@
 <script setup lang="ts">
-import { NButton, NCard, NDataTable, NTag } from 'naive-ui'
+import { NButton, NCard, NDataTable, NGrid, NGridItem, NTag } from 'naive-ui'
+import { h, onMounted, ref } from 'vue'
+import { format } from 'date-fns'
+import {
+  getPrepaymentDefaultAccount,
+  getPrepaymentTransactionList,
+} from '@/api/user'
 
-import { ref } from 'vue'
+const accountData = ref(null)
+const transactionData = ref([]) // 添加一个新的 ref 来保存交易数据
+const pageNo = ref(1) // 添加一个用于跟踪页码的 ref
+const pageSize = ref(10) // 添加一个用于跟踪每页大小的 ref
+
+onMounted(async () => {
+  const response = await getPrepaymentDefaultAccount()
+  accountData.value = response
+
+  // 获取预付费账户交易流水
+  await getPrepaymentTransactionList({
+    skipCount: (pageNo.value - 1) * pageSize.value,
+    maxResultCount: pageSize.value,
+    accountId: accountData.value.id,
+  }).then((item) => {
+    transactionData.value = item.items
+  })
+})
+
 const createColumns = () => {
   return [
     {
-      title: 'Name',
-      key: 'name',
+      title: '编号',
+      key: 'externalTradingCode',
     },
     {
-      title: 'Age',
-      key: 'age',
+      title: '记录',
+      key: 'changedBalance',
+      render: ({ changedBalance }: { changedBalance: number }) => {
+        const tagType = changedBalance >= 0 ? 'success' : 'error'
+        return h(NTag, { type: tagType }, () => changedBalance)
+      },
     },
     {
-      title: 'Address',
-      key: 'address',
+      title: '时间',
+      key: 'creationTime',
+      render: ({ creationTime }: { creationTime: Date }) => {
+        return format(new Date(creationTime), 'yyyy-MM-dd HH:mm:ss')
+      },
     },
     {
-      title: 'Tags',
-      key: 'tags',
+      title: '类型',
+      key: 'transactionType',
     },
     {
-      title: 'Action',
+      title: '备注',
       key: 'actions',
     },
   ]
 }
-const data = ref()
+
 const columns = createColumns()
 </script>
 
@@ -39,48 +70,47 @@ const columns = createColumns()
         </NButton>
       </div>
       <NCard title="余额" size="small">
-        <template #footer>
-          <grid
-            role="none"
-            class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 md:grid-cols-5"
-          >
-            <grid-item>
-              会员状态： <NTag type="success">
-                默认
-              </NTag>
-            </grid-item>
-            <grid-item>
-              对话总量: <NTag type="info">
-                5000
-              </NTag>
-            </grid-item>
-            <grid-item>
-              对话剩余： <NTag type="warning">
-                5000
-              </NTag>
-            </grid-item>
-            <grid-item>
-              绘画总量： <NTag type="info">
-                14
-              </NTag>
-            </grid-item>
-            <grid-item>
-              绘画剩余： <NTag type="warning">
-                14
-              </NTag>
-            </grid-item>
-          </grid>
-        </template>
+        <NGrid
+          :x-gap="12"
+          :y-gap="8"
+          :cols="5"
+          role="none"
+        >
+          <NGridItem>
+            会员状态： <NTag type="success">
+              默认
+            </NTag>
+          </NGridItem>
+          <NGridItem>
+            对话总量: <NTag type="info">
+              5000
+            </NTag>
+          </NGridItem>
+          <NGridItem>
+            对话剩余： <NTag type="warning">
+              5000
+            </NTag>
+          </NGridItem>
+          <NGridItem>
+            绘画总量： <NTag type="info">
+              14
+            </NTag>
+          </NGridItem>
+          <NGridItem>
+            绘画剩余： <NTag type="warning">
+              14
+            </NTag>
+          </NGridItem>
+        </NGrid>
       </NCard>
-      <NCard title="记录" size="small">
-        <template #footer>
-          <NDataTable :columns="columns" :data="data" />
-        </template>
+      <NCard title="钱包" size="small">
+        <NDataTable
+          :bordered="false"
+          :single-line="false"
+          :columns="columns"
+          :data="transactionData"
+        />
       </NCard>
     </div>
   </div>
-</template>>
-
-function createColumns() {
-  throw new Error('Function not implemented.')
-}
+</template>
