@@ -20,13 +20,13 @@ import { Account, Overview, Package } from '@/views/setting/components/index'
       </NAlert>
       <div>
         <NTabs type="line" animated>
-          <NTabPane name="总览" tab="总览">
+          <NTabPane name="Overview" tab="总览">
             <Overview />
           </NTabPane>
-          <NTabPane name="账户" tab="账户">
+          <NTabPane name="Account" tab="账户">
             <Account />
           </NTabPane>
-          <NTabPane name="套餐" tab="套餐">
+          <NTabPane name="Package" tab="套餐">
             <Package />
           </NTabPane>
         </NTabs>

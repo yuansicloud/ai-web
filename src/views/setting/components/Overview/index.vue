@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  NAvatar,
   NButton,
   NInput,
   NPopconfirm,
@@ -10,19 +11,19 @@ import {
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Language, Theme } from '@/store/modules/app/helper'
-import { SvgIcon } from '@/components/common'
+import { SelectAvatar, SvgIcon } from '@/components/common'
 import { useAppStore, useAuthStore, useUserStore } from '@/store'
-import type { UserInfo } from '@/store/modules/user/helper'
 import { getCurrentDate } from '@/utils/functions'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { t } from '@/locales'
-const router = useRouter()
 
+const router = useRouter()
 const appStore = useAppStore()
 const userStore = useUserStore()
 const authStore = useAuthStore()
+
 onMounted(() => {
-  userStore.getUserInfo()
+  userStore.getUserInfoAction()
 })
 const { isMobile } = useBasicLayout()
 
@@ -30,13 +31,12 @@ const ms = useMessage()
 
 const theme = computed(() => appStore.theme)
 
-const userInfo = computed(() => userStore.userInfo)
-
-const name = ref(userInfo.value.name ?? '')
-const phoneNumber = ref(userInfo.value.phoneNumber ?? '')
-
-const email = ref(userInfo.value.email ?? '')
-
+const userInfo = computed(() => userStore.getUserInfo)
+const handleSaveSelectedImage = (image: any) => {
+  changedUserInfo.value.extraProperties.Avatar = image
+  setUserInfo()
+}
+const showModal = ref(false)
 const language = computed({
   get() {
     return appStore.language
@@ -72,11 +72,27 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
   { label: 'Русский язык', key: 'ru-RU', value: 'ru-RU' },
 ]
 
-function getUserInfo(options: Partial<UserInfo>) {
-  userStore.getUserInfo(options)
-  ms.success(t('common.success'))
+// function getUserInfo(options: Partial<UserInfo>) {
+//   userStore.getUserInfo(options)
+//   ms.success(t('common.success'))
+// }
+const changedUserInfo = ref({
+  name: userInfo.value.name ?? '',
+  concurrencyStamp: userInfo.value.concurrencyStamp ?? '',
+  email: userInfo.value.email ?? '',
+  phoneNumber: userInfo.value.phoneNumber ?? '',
+  userName: userInfo.value.userName ?? '',
+  hasPassword: userInfo.value.hasPassword ?? '',
+  isExternal: userInfo.value.isExternal ?? '',
+  surname: userInfo.value.surname ?? '',
+  extraProperties: {
+    Avatar: userInfo.value.extraProperties?.Avatar ?? '',
+    Introduction: userInfo.value.extraProperties?.Introduction ?? '',
+  },
+})
+function setUserInfo() {
+  userStore.setUserInformation(changedUserInfo.value)
 }
-
 function handleReset() {
   userStore.resetUserInfo()
   ms.success(t('common.success'))
@@ -141,49 +157,51 @@ function handleImportButtonClick(): void {
 <template>
   <div class="min-h-full p-4">
     <div class="space-y-6">
+      <div class="flex avatar relative mb-8 ml-[60px] h-24 w-24 shadow-md" style="align-items: center;">
+        <div class="avatar-wrapper">
+          <NAvatar
+            class="h-full w-full rounded-full object-cover"
+            round
+            :size="98"
+            :src="changedUserInfo.extraProperties.Avatar"
+          />
+        </div>
+        <NButton style="margin: 20px;" @click="showModal = true">
+          更换头像
+        </NButton>
+      </div>
+
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[100px]">{{ $t("setting.name") }}</span>
         <div class="w-[200px]">
-          <NInput v-model:value="name" placeholder="" />
+          <NInput v-model:value="changedUserInfo.name" placeholder="" />
         </div>
-        <NButton
-          size="tiny"
-          text
-          type="primary"
-          @click="getUserInfo({ phoneNumber })"
-        >
-          {{ $t("common.save") }}
-        </NButton>
       </div>
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[100px]">{{
           $t("setting.phoneNumber")
         }}</span>
         <div class="w-[200px]">
-          <NInput v-model:value="phoneNumber" placeholder="" />
+          <NInput v-model:value="changedUserInfo.phoneNumber" placeholder="" />
         </div>
-        <NButton
-          size="tiny"
-          text
-          type="primary"
-          @click="getUserInfo({ phoneNumber })"
-        >
-          {{ $t("common.save") }}
-        </NButton>
       </div>
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[100px]">{{ $t("setting.email") }}</span>
         <div class="flex-1">
-          <NInput v-model:value="email" placeholder="" />
+          <NInput v-model:value="changedUserInfo.email" placeholder="" />
         </div>
-        <NButton
-          size="tiny"
-          text
-          type="primary"
-          @click="getUserInfo({ email })"
-        >
-          {{ $t("common.save") }}
-        </NButton>
+      </div>
+      <div style="align-items: center;  justify-content: center;" class="flex items-center space-x-4 pl-[60px]">
+        <div class="flex items-center space-x-4">
+          <NButton size="small" type="primary" @click="setUserInfo">
+            更新用户信息
+          </NButton>
+        </div>
+        <div class="flex items-center space-x-4">
+          <NButton size="small" type="warning" @click="logOut">
+            {{ $t("common.secede") }}
+          </NButton>
+        </div>
       </div>
       <div
         class="flex items-center space-x-4"
@@ -264,14 +282,7 @@ function handleImportButtonClick(): void {
           {{ $t("common.reset") }}
         </NButton>
       </div>
-      <div class="flex items-center space-x-4">
-        <span class="flex-shrink-0 w-[100px]">{{
-          $t("setting.logOut")
-        }}</span>
-        <NButton size="small" @click="logOut">
-          {{ $t("common.secede") }}
-        </NButton>
-      </div>
     </div>
+    <SelectAvatar v-model:visible="showModal" @save-selected-image="handleSaveSelectedImage" />
   </div>
 </template>>

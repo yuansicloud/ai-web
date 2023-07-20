@@ -2,12 +2,16 @@
 import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
 import { NButton, NLayoutSider, NProgress } from 'naive-ui'
+import { useRouter } from 'vue-router'
 import List from './List.vue'
 import { Search, Toolbar } from '@/views/chat/components'
 import { useAppStore, useChatStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { PromptStore } from '@/components/common'
-
+const router = useRouter()
+const goSetting = () => {
+  router.push('/setting')
+}
 const appStore = useAppStore()
 const chatStore = useChatStore()
 
@@ -59,6 +63,7 @@ watch(
 
 <template>
   <NLayoutSider
+    has-sider
     :collapsed="collapsed"
     :collapsed-width="0"
     :width="260"
@@ -89,7 +94,7 @@ watch(
               <NButton size="tiny" type="success">
                 刷新
               </NButton>
-              <NButton size="tiny" type="success">
+              <NButton size="tiny" type="success" @click="goSetting">
                 充值
               </NButton>
             </div>

@@ -4,7 +4,7 @@ import { NButton, NCard, NTag } from 'naive-ui'
 
 <template>
   <div
-    class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 md:grid-cols-3"
+    class="grid grid-cols-1 gap-x-4 gap-y-4 "
   >
     <div>
       <NCard>

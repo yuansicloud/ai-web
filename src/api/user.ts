@@ -30,12 +30,18 @@ export const getUserInfo = (signal?: GenericAbortSignal) => {
   })
 }
 // 更改用户信息
-export const setUserInfo = (signal?: GenericAbortSignal) => {
+export const setUserInfo = (data: UserInfo, signal?: GenericAbortSignal) => {
   return put({
     url: '/api/account/my-profile',
     signal,
+    data,
     baseURL: 'https://api.yuansicloud.com',
   })
+}
+interface UserInfo {
+  name: string
+  phoneNumber: string
+  email: string
 }
 
 // 获取预付费默认账户详情

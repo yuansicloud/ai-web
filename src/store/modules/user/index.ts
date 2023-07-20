@@ -1,11 +1,20 @@
 import { defineStore } from 'pinia'
 import type { UserInfo, UserState } from './helper'
 import { defaultSetting, getLocalState, setLocalState } from './helper'
-import { getUserInfo } from '@/api/user'
+import { getUserInfo, setUserInfo } from '@/api/user'
+
 export const useUserStore = defineStore('user-store', {
-  state: (): UserState => getLocalState(),
+  state: (): UserState => ({
+    // user info
+    userInfo: null,
+  }),
+  getters: {
+    getUserInfo(state): UserInfo {
+      return state.userInfo || getLocalState<UserInfo>() || { ...defaultSetting().userInfo }
+    },
+  },
   actions: {
-    async getUserInfo() {
+    async getUserInfoAction() {
       try {
         const userInfo = await getUserInfo()
         this.updateUserInfo(userInfo)
@@ -14,8 +23,19 @@ export const useUserStore = defineStore('user-store', {
         console.error('获取用户信息错误：', error)
       }
     },
-    updateUserInfo(userInfo: Partial<UserInfo>) {
-      this.userInfo = { ...this.userInfo, ...userInfo }
+    // 新增的方法
+    async setUserInformation(userInfo: UserInfo) {
+      try {
+        const updatedUserInfo = await setUserInfo(userInfo)
+        console.error('更新用户信息：', updatedUserInfo)
+        this.updateUserInfo(updatedUserInfo)
+      }
+      catch (error) {
+        console.error('更新用户信息错误：', error)
+      }
+    },
+    async updateUserInfo(userInfo: UserInfo) {
+      this.userInfo = userInfo
       this.recordState()
     },
 

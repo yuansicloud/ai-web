@@ -41,12 +41,19 @@ function http<T = any>(
 
   const params = Object.assign(typeof data === 'function' ? data() : data ?? {}, {})
 
-  return method === 'GET'
-    // eslint-disable-next-line no-mixed-operators
-    ? request.get(url, { params, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
-    : request.post(url, params, { headers, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
-    // eslint-disable-next-line no-mixed-operators
-    || request.put(url, params, { headers, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
+  if (method === 'GET') {
+    return request.get(url, { params, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
+  }
+  else if (method === 'POST') {
+    return request.post(url, params, { headers, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
+  }
+  else if (method === 'PUT') {
+    return request.put(url, params, { headers, signal, onDownloadProgress, baseURL }).then(successHandler, failHandler)
+  }
+  else {
+    // handle other cases or throw an error
+    throw new Error('Invalid method')
+  }
 }
 
 export function get<T = any>(

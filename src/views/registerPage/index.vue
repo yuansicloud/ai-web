@@ -5,11 +5,11 @@ import { ref } from 'vue'
 
 const formRef = ref<FormInst | null>(null)
 const formValue = ref({
-  phone: '',
+  phoneNumber: '',
   code: '',
 })
 const rules = {
-  phone: {
+  phoneNumber: {
     required: true,
     message: '电话号码不能为空',
     trigger: ['input'],
@@ -54,9 +54,9 @@ const rules = {
             size="small"
             style="height: ;"
           >
-            <NFormItem path="phone" style="height: 50px;">
+            <NFormItem path="phoneNumber" style="height: 50px;">
               <NInput
-                v-model:value="formValue.phone"
+                v-model:value="formValue.phoneNumber"
                 placeholder="手机"
                 @keydown.enter.prevent
               />

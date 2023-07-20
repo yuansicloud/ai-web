@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { NAvatar } from 'naive-ui'
+import { NAvatar, NTooltip } from 'naive-ui'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useUserStore } from '@/store'
 import defaultAvatar from '@/assets/avatar.jpg'
 
-const userStore = useUserStore()
+const store = useUserStore()
 
-const userInfo = computed(() => userStore.userInfo)
+const userAvatar = computed(() => store.getUserInfo.extraProperties?.Avatar)
+
 const router = useRouter()
 const { isMobile } = useBasicLayout()
 
@@ -31,29 +32,74 @@ onMounted(() => {
       class="flex h-full flex-col items-center justify-between bg-[#e8eaf1] px-2 py-7 dark:bg-[#25272d]"
     >
       <div class="flex flex-col space-y-4">
-        <a
-          class="menu h-12 w-12 cursor-pointer rounded-xl bg-white duration-300 dark:bg-[#34373c]"
-          :class="{ 'is-active': activePage === 'chat' }"
-          @click="goToPage('chat')"
-        >
-          <div class="flex h-full">
-            <div class="m-auto text-center">
-              <svg
-                aria-hidden="true"
-                width="2em"
-                height="2em"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M22 6.98V18H6l-4 4V2h12.1A5.002 5.002 0 0 0 19 8c1.13 0 2.16-.39 3-1.02zM16 3c0 1.66 1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3s-3 1.34-3 3z"
-                  fill="currentColor"
-                />
-              </svg>
-            </div>
-          </div>
-        </a>
+        <NTooltip :show-arrow="false" placement="left-start" trigger="hover">
+          <template #trigger>
+            <a
+              class="menu h-12 w-12 cursor-pointer rounded-xl bg-white duration-300 dark:bg-[#34373c]"
+              :class="{ 'is-active': activePage === 'chat' }"
+              @click="goToPage('chat')"
+            >
+              <div class="flex h-full">
+                <div class="m-auto text-center">
+                  <svg
+                    aria-hidden="true"
+                    width="2em"
+                    height="2em"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M22 6.98V18H6l-4 4V2h12.1A5.002 5.002 0 0 0 19 8c1.13 0 2.16-.39 3-1.02zM16 3c0 1.66 1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3s-3 1.34-3 3z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </template>
+          Ai聊天
+        </NTooltip>
+        <NTooltip :show-arrow="false" placement="left-start" trigger="hover">
+          <template #trigger>
+            <a
+              class="menu h-12 w-12 cursor-pointer rounded-xl bg-white duration-300 dark:bg-[#34373c]"
+              :class="{ 'is-active': activePage === 'roleRepository' }"
+              @click="goToPage('roleRepository')"
+            >
+              <div class="flex h-full">
+                <div class="m-auto text-center">
+                  <svg
+                    aria-hidden="true"
+                    width="2em"
+                    height="2em"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      cx="9"
+                      cy="8.5"
+                      opacity=".3"
+                      r="1.5"
+                      fill="currentColor"
+                    />
+                    <path
+                      opacity=".3"
+                      d="M4.34 17h9.32c-.84-.58-2.87-1.25-4.66-1.25s-3.82.67-4.66 1.25z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M9 12c1.93 0 3.5-1.57 3.5-3.5S10.93 5 9 5S5.5 6.57 5.5 8.5S7.07 12 9 12zm0-5c.83 0 1.5.67 1.5 1.5S9.83 10 9 10s-1.5-.67-1.5-1.5S8.17 7 9 7zm0 6.75c-2.34 0-7 1.17-7 3.5V19h14v-1.75c0-2.33-4.66-3.5-7-3.5zM4.34 17c.84-.58 2.87-1.25 4.66-1.25s3.82.67 4.66 1.25H4.34zm11.7-3.19c1.16.84 1.96 1.96 1.96 3.44V19h4v-1.75c0-2.02-3.5-3.17-5.96-3.44zM15 12c1.93 0 3.5-1.57 3.5-3.5S16.93 5 15 5c-.54 0-1.04.13-1.5.35c.63.89 1 1.98 1 3.15s-.37 2.26-1 3.15c.46.22.96.35 1.5.35z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </template>
+          角色仓库
+        </NTooltip>
         <!-- <a
             class="menu h-12 w-12 cursor-pointer rounded-xl bg-white duration-300 dark:bg-[#34373c]"
             :class="{ 'is-active': activePage === 'setting' }"
@@ -112,11 +158,13 @@ onMounted(() => {
         <a
           class="!hover:text-green-500 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-black dark:text-white"
         >
-          <div class="h-full w-full cursor-pointer overflow-hidden rounded-full">
+          <div
+            class="h-full w-full cursor-pointer overflow-hidden rounded-full"
+          >
             <NAvatar
               size="large"
               round
-              :src="userInfo.avatar"
+              :src="userAvatar"
               :fallback-src="defaultAvatar"
               @click="goToPage('setting')"
             />

@@ -1,4 +1,4 @@
-import { ss } from '@/utils/storage'
+import { ss } from '@/utils/storage/'
 
 const LOCAL_NAME = 'userStorage'
 
@@ -6,23 +6,36 @@ export interface UserInfo {
   name: string
   email: string
   phoneNumber: string
+  userName: string
+  hasPassword: boolean
+  isExternal: boolean
+  surname: null
+  concurrencyStamp: string
   extraProperties: extraProperties
+
 }
 interface extraProperties {
   Avatar: string
+  Introduction: string
 }
 export interface UserState {
-  userInfo: UserInfo
+  userInfo: Nullable<UserInfo>
 }
 
 export function defaultSetting(): UserState {
   return {
     userInfo: {
       name: '',
+      concurrencyStamp: '',
       email: '',
       phoneNumber: '',
+      userName: '',
+      hasPassword: true,
+      isExternal: false,
+      surname: null,
       extraProperties: {
         Avatar: '',
+        Introduction: '',
       },
     },
   }
