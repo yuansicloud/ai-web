@@ -1,5 +1,6 @@
 import type { GenericAbortSignal } from 'axios'
 import { get, post, put } from '@/utils/request'
+import type { UserInfo } from '@/store/modules/user/helper'
 
 // 手机登录API接口
 export const phoneNumberLogin = (phoneNumber: string, verificationCode: string, signal?: GenericAbortSignal) => {
@@ -37,11 +38,6 @@ export const setUserInfo = (data: UserInfo, signal?: GenericAbortSignal) => {
     data,
     baseURL: 'https://api.yuansicloud.com',
   })
-}
-interface UserInfo {
-  name: string
-  phoneNumber: string
-  email: string
 }
 
 // 获取预付费默认账户详情

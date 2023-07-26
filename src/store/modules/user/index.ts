@@ -23,11 +23,10 @@ export const useUserStore = defineStore('user-store', {
         console.error('获取用户信息错误：', error)
       }
     },
-    // 新增的方法
+    // 变更用户信息
     async setUserInformation(userInfo: UserInfo) {
       try {
         const updatedUserInfo = await setUserInfo(userInfo)
-        console.error('更新用户信息：', updatedUserInfo)
         this.updateUserInfo(updatedUserInfo)
       }
       catch (error) {
@@ -43,7 +42,6 @@ export const useUserStore = defineStore('user-store', {
       this.userInfo = { ...defaultSetting().userInfo }
       this.recordState()
     },
-
     recordState() {
       setLocalState(this.$state)
     },

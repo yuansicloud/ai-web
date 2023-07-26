@@ -472,11 +472,11 @@ onUnmounted(() => {
       @export="handleExport"
       @handle-clear="handleClear"
     />
-    <main class="flex-1 overflow-hidden">
+    <main class="flex-1 overflow-hidden main-content">
       <div id="scrollRef" ref="scrollRef" class="h-full overflow-hidden overflow-y-auto">
         <div
           id="image-wrapper"
-          class="w-full max-w-screen-xl m-auto dark:bg-[#101014]"
+          class="w-full m-auto dark:bg-[#101014]"
           :class="[isMobile ? 'p-2' : 'p-4']"
         >
           <template v-if="!dataSources.length">
@@ -512,8 +512,8 @@ onUnmounted(() => {
       </div>
     </main>
     <footer :class="footerClass">
-      <div class="w-full max-w-screen-xl m-auto">
-        <div class="flex items-center justify-between space-x-2">
+      <div class="m-auto max-w-screen-2xl py-4 px-4 main-content">
+        <div class="flex items-stretch space-x-2">
           <HoverButton v-if="!isMobile" @click="handleClear">
             <span class="text-xl text-[#4f555e] dark:text-white">
               <SvgIcon icon="ri:delete-bin-line" />
@@ -557,3 +557,11 @@ onUnmounted(() => {
   </div>
   <Sider />
 </template>
+
+<style lang="less">
+@media screen and (min-width: 768px) {
+  .main-content {
+    margin-left: 260px;
+  }
+}
+</style>

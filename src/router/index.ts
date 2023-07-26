@@ -53,6 +53,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/chat/index.vue'),
       },
       {
+        path: '/picture',
+        name: 'Picture',
+        component: () => import('@/views/picture/index.vue'),
+      },
+      {
         path: '/setting',
         name: 'Setting',
         component: () => import('@/views/setting/index.vue'),
@@ -66,6 +71,11 @@ const routes: RouteRecordRaw[] = [
         path: '/roleRepository',
         name: 'RoleRepository',
         component: () => import('@/views/roleRepository/index.vue'),
+      },
+      {
+        path: '/gallery',
+        name: 'Gallery',
+        component: () => import('@/views/gallery/index.vue'),
       },
     ],
   },

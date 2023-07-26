@@ -1,11 +1,11 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
-import { NButton, NLayoutSider, NProgress } from 'naive-ui'
+import { NButton, NLayoutSider, NProgress, NSpace, NSpin } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import List from './List.vue'
 import { Search, Toolbar } from '@/views/chat/components'
-import { useAppStore, useChatStore } from '@/store'
+import { useAppStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { PromptStore } from '@/components/common'
 const router = useRouter()
@@ -13,18 +13,17 @@ const goSetting = () => {
   router.push('/setting')
 }
 const appStore = useAppStore()
-const chatStore = useChatStore()
 
 const { isMobile } = useBasicLayout()
 const show = ref(false)
-
-const collapsed = computed(() => appStore.siderCollapsed)
-
-function handleAdd() {
-  chatStore.addHistory({ title: 'New Chat', uuid: Date.now(), isEdit: false })
-  if (isMobile.value)
-    appStore.setSiderCollapsed(true)
+const refresh = ref(false)
+const handleRefresh = () => {
+  refresh.value = true
+  setTimeout(() => {
+    refresh.value = false
+  }, 3000) // change it to the desired refresh time in milliseconds
 }
+const collapsed = computed(() => appStore.siderCollapsed)
 
 function handleUpdateCollapsed() {
   appStore.setSiderCollapsed(!collapsed.value)
@@ -91,9 +90,14 @@ watch(
           <div class="flex h-8 items-center justify-between space-x-2">
             <span>余额 4,880 (98%)</span>
             <div class="mr-2 flex items-center space-x-2">
-              <NButton size="tiny" type="success">
-                刷新
-              </NButton>
+              <NSpace vertical @click="handleRefresh ">
+                <NSpin size="small" :show="refresh">
+                  <NButton size="tiny" type="success">
+                    刷新
+                  </NButton>
+                </NSpin>
+              </NSpace>
+
               <NButton size="tiny" type="success" @click="goSetting">
                 充值
               </NButton>

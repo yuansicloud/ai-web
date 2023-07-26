@@ -32,8 +32,8 @@ const ms = useMessage()
 const theme = computed(() => appStore.theme)
 
 const userInfo = computed(() => userStore.getUserInfo)
-const handleSaveSelectedImage = (image: any) => {
-  changedUserInfo.value.extraProperties.Avatar = image
+const handleSaveSelectedImage = (Avatar: any) => {
+  userInfo.value.extraProperties.Avatar = Avatar
   setUserInfo()
 }
 const showModal = ref(false)
@@ -76,22 +76,9 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
 //   userStore.getUserInfo(options)
 //   ms.success(t('common.success'))
 // }
-const changedUserInfo = ref({
-  name: userInfo.value.name ?? '',
-  concurrencyStamp: userInfo.value.concurrencyStamp ?? '',
-  email: userInfo.value.email ?? '',
-  phoneNumber: userInfo.value.phoneNumber ?? '',
-  userName: userInfo.value.userName ?? '',
-  hasPassword: userInfo.value.hasPassword ?? '',
-  isExternal: userInfo.value.isExternal ?? '',
-  surname: userInfo.value.surname ?? '',
-  extraProperties: {
-    Avatar: userInfo.value.extraProperties?.Avatar ?? '',
-    Introduction: userInfo.value.extraProperties?.Introduction ?? '',
-  },
-})
+
 function setUserInfo() {
-  userStore.setUserInformation(changedUserInfo.value)
+  userStore.setUserInformation(userInfo.value)
 }
 function handleReset() {
   userStore.resetUserInfo()
@@ -163,7 +150,7 @@ function handleImportButtonClick(): void {
             class="h-full w-full rounded-full object-cover"
             round
             :size="98"
-            :src="changedUserInfo.extraProperties.Avatar"
+            :src="userInfo.extraProperties?.Avatar"
           />
         </div>
         <NButton style="margin: 20px;" @click="showModal = true">
@@ -174,7 +161,7 @@ function handleImportButtonClick(): void {
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[100px]">{{ $t("setting.name") }}</span>
         <div class="w-[200px]">
-          <NInput v-model:value="changedUserInfo.name" placeholder="" />
+          <NInput v-model:value="userInfo.name" placeholder="" />
         </div>
       </div>
       <div class="flex items-center space-x-4">
@@ -182,13 +169,13 @@ function handleImportButtonClick(): void {
           $t("setting.phoneNumber")
         }}</span>
         <div class="w-[200px]">
-          <NInput v-model:value="changedUserInfo.phoneNumber" placeholder="" />
+          <NInput v-model:value="userInfo.phoneNumber" placeholder="" />
         </div>
       </div>
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[100px]">{{ $t("setting.email") }}</span>
         <div class="flex-1">
-          <NInput v-model:value="changedUserInfo.email" placeholder="" />
+          <NInput v-model:value="userInfo.email" placeholder="" />
         </div>
       </div>
       <div style="align-items: center;  justify-content: center;" class="flex items-center space-x-4 pl-[60px]">

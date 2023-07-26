@@ -17,6 +17,7 @@ const saveSelectedImage = () => {
     // eslint-disable-next-line vue/custom-event-name-casing, @typescript-eslint/no-use-before-define
     emit('save-selected-image', imageSources[selectedImageIndex.value]) // 发送一个事件，并将选中的图片作为参数
 
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return showModal.value = false
 }
 const imageSources = [

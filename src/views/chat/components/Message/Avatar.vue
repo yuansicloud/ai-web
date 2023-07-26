@@ -10,9 +10,9 @@ interface Props {
 }
 defineProps<Props>()
 
-const userStore = useUserStore()
+const store = useUserStore()
 
-const avatar = computed(() => userStore.userInfo.avatar)
+const avatar = computed(() => store.getUserInfo.extraProperties?.Avatar)
 </script>
 
 <template>

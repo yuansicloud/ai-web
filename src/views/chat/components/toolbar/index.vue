@@ -37,7 +37,7 @@ function clearData(): void {
         </NButton>
       </div>
       <div class="flex space-x-2">
-        <NButton @click="goRoleRepository()">
+        <NButton @click="goRoleRepository">
           <template #icon>
             <svg
               aria-hidden="true"

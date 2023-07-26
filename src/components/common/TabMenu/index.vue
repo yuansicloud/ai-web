@@ -16,7 +16,7 @@ const { isMobile } = useBasicLayout()
 <template>
   <div class="flex flex-col w-full">
     <footer v-if="isMobile" class="bg-white dark:bg-[#25272c]">
-      <div class="grid py-2 border-t dark:border-t-neutral-800 grid-cols-4">
+      <div class="grid py-2 border-t dark:border-t-neutral-800 grid-cols-5">
         <a
           class="cursor-pointer text-center leading-4 text-slate-500 menu"
           :class="{ 'is-active': activePage === 'chat' }"
@@ -43,8 +43,8 @@ const { isMobile } = useBasicLayout()
         </a>
         <a
           class="cursor-pointer text-center leading-4 text-slate-500 menu"
-          :class="{ 'is-active': activePage === 'setting' }"
-          @click="goToPage('setting')"
+          :class="{ 'is-active': activePage === 'gallery' }"
+          @click="goToPage('gallery')"
         >
           <span class="inline-block text-xl">
             <NIcon>
@@ -75,6 +75,30 @@ const { isMobile } = useBasicLayout()
             </NIcon>
           </span>
           <p>工作台</p>
+        </a>
+        <a
+          class="cursor-pointer text-center leading-4 text-slate-500 menu"
+          :class="{ 'is-active': activePage === 'picture' }"
+          @click="goToPage('picture')"
+        >
+          <span class="inline-block text-xl">
+            <NIcon>
+              <svg
+                aria-hidden="true"
+                width="2em"
+                height="2em"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 1024 1024"
+              >
+                <path
+                  d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zM338 304c35.3 0 64 28.7 64 64s-28.7 64-64 64s-64-28.7-64-64s28.7-64 64-64zm513.9 437.1a8.11 8.11 0 0 1-5.2 1.9H177.2c-4.4 0-8-3.6-8-8c0-1.9.7-3.7 1.9-5.2l170.3-202c2.8-3.4 7.9-3.8 11.3-1c.3.3.7.6 1 1l99.4 118l158.1-187.5c2.8-3.4 7.9-3.8 11.3-1c.3.3.7.6 1 1l229.6 271.6c2.6 3.3 2.2 8.4-1.2 11.2z"
+                  fill="currentColor"
+                />
+              </svg>
+            </NIcon>
+          </span>
+          <p>Ai绘画</p>
         </a>
         <a
           class="cursor-pointer text-center leading-4 text-slate-500 menu"
