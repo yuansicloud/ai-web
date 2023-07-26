@@ -1,7 +1,7 @@
 <script setup lang='ts'>
-import { NButton, NIcon, NImage, NInput, NTag } from 'naive-ui'
-import { ref } from 'vue'
-const checked = ref([])
+import { NButton, NGrid, NGridItem, NIcon, NImage, NInput, NTag } from 'naive-ui'
+import { computed, ref } from 'vue'
+const checked = ref(0)
 const tags = [
   { label: '全部', id: 0 },
   { label: '印象派', id: 1 },
@@ -35,20 +35,52 @@ const imageItems = [
     title:
       'Cinematic Abstract Impressionism, Emotional Darkness, Snowy, Minimalism',
     buttons,
+    tag: 0,
   },
   {
     imageUrl: 'https://cdn.midjourney.com/47a77e12-2e56-429d-ae86-b69c1cfba3f3/0_1_640_N.webp',
     title:
       'Cinematic Abstract Impressionism, Emotional Darkness, Snowy, Minimalism',
     buttons,
+    tag: 2,
   },
   {
     imageUrl: 'https://cdn.midjourney.com/db1948a7-f765-45cd-9e89-466da085c28c/0_1_640_N.webp',
     title:
       'Cinematic Abstract Impressionism, Emotional Darkness, Snowy, Minimalism',
     buttons,
+    tag: 1,
+  },
+  {
+    imageUrl: 'https://cdn.midjourney.com/dec83547-b7a2-4bdb-907f-d482b07a9402/0_3_640_N.webp',
+    title:
+      'Cinematic Abstract Impressionism, Emotional Darkness, Snowy, Minimalism',
+    buttons,
+    tag: 2,
+  },
+  {
+    imageUrl: 'https://cdn.midjourney.com/8605e325-5f08-4296-bacd-97806824aa81/0_0_384_N.webp',
+    title:
+      'Cinematic Abstract Impressionism, Emotional Darkness, Snowy, Minimalism',
+    buttons,
+    tag: 2,
+  },
+  {
+    imageUrl: 'https://cdn.midjourney.com/b83841e9-dc39-4220-8b42-b5c0c0b2aadb/0_0_384_N.webp',
+    title:
+      'Cinematic Abstract Impressionism, Emotional Darkness, Snowy, Minimalism',
+    buttons,
+    tag: 3,
   },
 ]
+const filteredItems = computed(() => {
+  // 如果没有选择任何标签或选择了标签 '全部'，则返回全部图片项目
+  if (checked.value === null || checked.value === 0)
+    return imageItems
+
+  // 否则，根据选择的标签筛选图片项目
+  return imageItems.filter(item => item.tag === checked.value)
+})
 </script>
 
 <template>
@@ -97,198 +129,45 @@ const imageItems = [
       </div>
     </header>
     <main>
-      <div class="masonry-wall" style="display: flex; gap: 15px">
-        <div class="masonry-column">
-          <div
-            v-for="(item, index) in imageItems"
-            :key="index"
-            class="masonry-item"
-            :data-index="index"
-          >
-            <div class="rounded-md shadow-md">
-              <div class="images-wrapper relative overflow-hidden rounded-md">
-                <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer opacity-0 backdrop-blur-sm">
-                  <NImage :src="item.imageUrl" />
-                </div>
-                <img :src="item.imageUrl">
-                <footer class="footer rounded-md bg-black/50 p-2">
-                  <h2 class="text-ellipsis-3 text-white">
-                    {{ item.title }}
-                  </h2>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                      <NButton
-                        v-for="(button, index) in item.buttons"
-                        :key="index"
-                        size="tiny"
-                        type="primary"
-                        ghost
-                      >
-                        {{ button.label }}
-                      </NButton>
-                    </div>
-                  </div>
-                </footer>
-              </div>
+      <NGrid :x-gap="12" :y-gap="12" :cols="6" style=" gap: 15px">
+        <NGridItem
+          v-for="(item, index) in filteredItems"
+          :key="index"
+        >
+          <div class="images-wrapper relative overflow-hidden rounded-md">
+            <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer opacity-0 backdrop-blur-sm">
+              <NImage
+                :src="item.imageUrl"
+              />
             </div>
-          </div>
-        </div>
-        <div class="masonry-column">
-          <div
-            v-for="(item, index) in imageItems"
-            :key="index"
-            class="masonry-item"
-            :data-index="index"
-          >
-            <div class="rounded-md shadow-md">
-              <div class="images-wrapper relative overflow-hidden rounded-md">
-                <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer opacity-0 backdrop-blur-sm">
-                  <NImage :src="item.imageUrl" />
+            <img :src="item.imageUrl">
+            <footer class="footer rounded-md bg-black/50 p-2">
+              <h2 class="text-ellipsis-3 text-white">
+                {{ item.title }}
+              </h2>
+              <div class="mt-2 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <NButton
+                    v-for="(button, index) in item.buttons"
+                    :key="index"
+                    size="tiny"
+                    type="primary"
+                    ghost
+                    @click="handleClick(button.id)"
+                  >
+                    {{ button.label }}
+                  </NButton>
                 </div>
-                <img :src="item.imageUrl">
-                <footer class="footer rounded-md bg-black/50 p-2">
-                  <h2 class="text-ellipsis-3 text-white">
-                    {{ item.title }}
-                  </h2>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                      <NButton
-                        v-for="(button, index) in item.buttons"
-                        :key="index"
-                        size="tiny"
-                        type="primary"
-                        ghost
-                      >
-                        {{ button.label }}
-                      </NButton>
-                    </div>
-                  </div>
-                </footer>
               </div>
-            </div>
+            </footer>
           </div>
-        </div>
-        <div class="masonry-column">
-          <div
-            v-for="(item, index) in imageItems"
-            :key="index"
-            class="masonry-item"
-            :data-index="index"
-          >
-            <div class="rounded-md shadow-md">
-              <div class="images-wrapper relative overflow-hidden rounded-md">
-                <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer opacity-0 backdrop-blur-sm">
-                  <NImage :src="item.imageUrl" />
-                </div>
-                <img :src="item.imageUrl">
-                <footer class="footer rounded-md bg-black/50 p-2">
-                  <h2 class="text-ellipsis-3 text-white">
-                    {{ item.title }}
-                  </h2>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                      <NButton
-                        v-for="(button, index) in item.buttons"
-                        :key="index"
-                        size="tiny"
-                        type="primary"
-                        ghost
-                      >
-                        {{ button.label }}
-                      </NButton>
-                    </div>
-                  </div>
-                </footer>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="masonry-column">
-          <div
-            v-for="(item, index) in imageItems"
-            :key="index"
-            class="masonry-item"
-            :data-index="index"
-          >
-            <div class="rounded-md shadow-md">
-              <div class="images-wrapper relative overflow-hidden rounded-md">
-                <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer opacity-0 backdrop-blur-sm">
-                  <NImage :src="item.imageUrl" />
-                </div>
-                <img :src="item.imageUrl">
-                <footer class="footer rounded-md bg-black/50 p-2">
-                  <h2 class="text-ellipsis-3 text-white">
-                    {{ item.title }}
-                  </h2>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                      <NButton
-                        v-for="(button, index) in item.buttons"
-                        :key="index"
-                        size="tiny"
-                        type="primary"
-                        ghost
-                      >
-                        {{ button.label }}
-                      </NButton>
-                    </div>
-                  </div>
-                </footer>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="masonry-column">
-          <div
-            v-for="(item, index) in imageItems"
-            :key="index"
-            class="masonry-item"
-            :data-index="index"
-          >
-            <div class="rounded-md shadow-md">
-              <div class="images-wrapper relative overflow-hidden rounded-md">
-                <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer opacity-0 backdrop-blur-sm">
-                  <NImage :src="item.imageUrl" />
-                </div>
-                <img :src="item.imageUrl">
-                <footer class="footer rounded-md bg-black/50 p-2">
-                  <h2 class="text-ellipsis-3 text-white">
-                    {{ item.title }}
-                  </h2>
-                  <div class="mt-2 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                      <NButton
-                        v-for="(button, index) in item.buttons"
-                        :key="index"
-                        size="tiny"
-                        type="primary"
-                        ghost
-                      >
-                        {{ button.label }}
-                      </NButton>
-                    </div>
-                  </div>
-                </footer>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </NGridItem>
+      </NGrid>
     </main>
   </div>
 </template>
 
 <style scoped>
-.masonry-column {
-  display: flex;
-  flex-basis: 200px;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 15px;
-  height: max-content;
-  min-width: 0px;
-}
-/* 这是新的 CSS 规则 */
 .images-wrapper:hover .footer {
   opacity: 1;
 }
